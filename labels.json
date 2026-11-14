@@ -1,12 +1,12 @@
 [
   {
     "color": "b60205",
-    "description": "Hog prioritet",
+    "description": "Hög prioritet",
     "name": "priority:high"
   },
   {
     "color": "c2e0c6",
-    "description": "Lag prioritet",
+    "description": "Låg prioritet",
     "name": "priority:low"
   },
   {
@@ -26,7 +26,7 @@
   },
   {
     "color": "000000",
-    "description": "Blockerad av oppen issue",
+    "description": "Blockerad av öppen issue",
     "name": "status:blocked"
   },
   {
@@ -41,12 +41,12 @@
   },
   {
     "color": "5319e7",
-    "description": "Projektets mal",
+    "description": "Projektets mål",
     "name": "type:prd"
   },
   {
     "color": "1d76db",
-    "description": "Vertikal skiva en anvandare kan prova",
+    "description": "Vertikal skiva en användare kan prova",
     "name": "type:story"
   },
   {
