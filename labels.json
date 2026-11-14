@@ -1,57 +1,57 @@
 [
   {
     "color": "b60205",
-    "description": "Hög prioritet",
+    "description": "High priority",
     "name": "priority:high"
   },
   {
     "color": "c2e0c6",
-    "description": "Låg prioritet",
+    "description": "Low priority",
     "name": "priority:low"
   },
   {
     "color": "fbca04",
-    "description": "Medel prioritet",
+    "description": "Medium priority",
     "name": "priority:medium"
   },
   {
     "color": "bfd4f2",
-    "description": "Medelstor task (max, dela annars upp)",
+    "description": "Medium task (maximum, split anything larger)",
     "name": "size:m"
   },
   {
     "color": "ededed",
-    "description": "Liten task",
+    "description": "Small task",
     "name": "size:s"
   },
   {
     "color": "000000",
-    "description": "Blockerad av öppen issue",
+    "description": "Blocked by an open issue",
     "name": "status:blocked"
   },
   {
     "color": "d73a4a",
-    "description": "Fel som ska fixas",
+    "description": "Something broken that needs fixing",
     "name": "type:bug"
   },
   {
     "color": "5319e7",
-    "description": "Stor leverans",
+    "description": "Large delivery",
     "name": "type:epic"
   },
   {
     "color": "5319e7",
-    "description": "Projektets mål",
+    "description": "Goal for a version",
     "name": "type:prd"
   },
   {
     "color": "1d76db",
-    "description": "Vertikal skiva en användare kan prova",
+    "description": "Vertical slice a user can try",
     "name": "type:story"
   },
   {
     "color": "0e8a16",
-    "description": "Tekniskt arbetspaket, en PR",
+    "description": "Technical work package, one PR",
     "name": "type:task"
   }
 ]

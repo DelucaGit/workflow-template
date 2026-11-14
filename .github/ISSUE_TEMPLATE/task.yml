@@ -1,19 +1,19 @@
 name: Task
-description: Ett konkret tekniskt arbetspaket. En task blir en branch och en PR.
+description: A concrete technical work package. One task becomes one branch and one PR.
 title: "[Task] "
 labels: ["type:task"]
 body:
   - type: textarea
     id: what
     attributes:
-      label: Vad som ska göras
+      label: What to do
     validations:
       required: true
   - type: textarea
     id: files
     attributes:
-      label: Filer
-      description: Fyll i alla tre raderna, skriv "inga" om inga.
+      label: Files
+      description: Fill in all three lines, write "none" if there are none.
       value: |
         **Files to change:**
         **Files to create:**
@@ -23,16 +23,16 @@ body:
   - type: textarea
     id: acceptance
     attributes:
-      label: Acceptanskriterier
-      description: Ska gå att testa.
+      label: Acceptance criteria
+      description: Must be testable.
       placeholder: "- [ ] ..."
     validations:
       required: true
   - type: dropdown
     id: size
     attributes:
-      label: Storlek
-      description: Sätt också motsvarande size-label. Större än m ska delas upp.
+      label: Size
+      description: Also set the matching size label. Anything larger than m must be split.
       options:
         - size:s
         - size:m
@@ -41,7 +41,7 @@ body:
   - type: textarea
     id: out-of-scope
     attributes:
-      label: Utanför scope
-      description: Vad tasken inte ska röra.
+      label: Out of scope
+      description: What the task must not touch.
     validations:
       required: true

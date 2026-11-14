@@ -1,11 +1,11 @@
 Closes #
 
-## Vad ändrades
+## What changed
 
 
-## Hur det testades
+## How it was tested
 
 
-## Berörda filer
-<!-- Ska stämma med filsektionen i tasken. Förklara varje fil som inte står där. -->
+## Files touched
+<!-- Must match the file section of the task. Explain every file that is not listed there. -->
 -
