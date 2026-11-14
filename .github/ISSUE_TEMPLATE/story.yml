@@ -1,0 +1,24 @@
+name: Story
+description: En vertikal skiva en användare kan prova. Skriv på vanligt språk.
+title: "[Story] "
+labels: ["type:story"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Påminnelse: tasks under storyn ska ligga i ordningen backend → API → frontend → end-to-end-test.
+        Sätt **Blocked by** mellan dem så att varje task blockeras av den före.
+  - type: textarea
+    id: story
+    attributes:
+      label: Som [vem] vill jag [vad] för att [varför]
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptanskriterier
+      description: Sådant en person kan se eller prova. Ingen teknik.
+      placeholder: "- [ ] ..."
+    validations:
+      required: true
