@@ -19,6 +19,10 @@ PRD → Epic → Story → Task. Varje nivå är en GitHub-issue, kopplad till n
 
 Bara en task ger kod och en PR.
 
+Undantag: en epic i *Backlog* får sakna PRD och milestone tills den planeras in i en version. Innan den flyttas till *Ready* ska den kopplas till en PRD.
+
+**Språk:** allt som skrivs i GitHub (issues, PR:er, commits, mallar, labels) skrivs på engelska. `WORKFLOW.md` är på svenska.
+
 ## 2. Beroenden och filer
 
 - Blockering sätts med GitHubs inbyggda **Blocked by / Blocking**. Det är den enda källan, ingen lista i issue-texten.
@@ -65,16 +69,16 @@ Gräns för pågående arbete: max en task *In progress* per session eller agent
 
 En issue-mall per typ. Fet text är obligatoriskt. Titelprefix: `[PRD]`, `[Epic]`, `[Story]`, `[Task]`, `[Bug]`.
 
-- **PRD**: **Mål**, **Vem det är för**, **Ingår**, **Ingår inte**, **Hur vi mäter att det lyckats**.
-- **Epic** (vanligt språk): **Vad som levereras**, **Varför det behövs**, **Hur vi vet att den är klar**.
-- **Story** (vanligt språk): **Som [vem] vill jag [vad] för att [varför]** och **Acceptanskriterier** som en person kan se eller prova, utan teknik.
-- **Task**: **Vad som ska göras**, **Files to change / create / read-only**, **Acceptanskriterier** som går att testa, **Storlek**, **Utanför scope**.
-- **Bug**: **Vad som hände**, **Vad som borde hända**, **Steg för att återskapa**, **Miljö**.
+- **PRD**: **Goal**, **Who it is for**, **In scope**, **Out of scope**, **How we measure success**.
+- **Epic** (vanligt språk): **What is delivered**, **Why it is needed**, **How we know it is done**.
+- **Story** (vanligt språk): **As a [who] I want [what] so that [why]** och **Acceptance criteria** som en person kan se eller prova, utan teknik.
+- **Task**: **What to do**, **Files to change / create / read-only**, **Acceptance criteria** som går att testa, **Size**, **Out of scope**.
+- **Bug**: **What happened**, **What should happen**, **Steps to reproduce**, **Environment**.
 
 ## 7. Branch, PR och merge
 
 - Branch: `task/<issue-nummer>-<kort-namn>`, till exempel `task/42-login-form`. Buggar: `bug/<nummer>-<namn>`. Alla utgår från `main`.
-- Commits börjar med issue-numret: `[#42] Lägg till inloggningsformulär`.
+- Commits börjar med issue-numret: `[#42] Add login form`.
 - En PR per task. Titel `[Task] ...`, och beskrivningen innehåller `Closes #<nummer>`, vad som ändrades, hur det testades och vilka filer som berördes. En fil utanför tasken ska förklaras.
 - Merge: squash merge, branchen raderas efteråt.
 - Ingen direkt push till `main`: allt går via PR. Det är en överenskommelse och inte en teknisk spärr (GitHub kräver Pro för skydd i privata repon). En PR mergas först när tasken inte har öppna blockerare.
@@ -125,7 +129,9 @@ Enda undantaget: köra exakt samma kommando en gång till vid ett uppenbart till
 
 ## 13. Gemensamma resurser
 
-Det här repot (`workflow-template`) innehåller `WORKFLOW.md`, `labels.json` och issue- och PR-mallarna. Den globala `CLAUDE.md` hämtar in `WORKFLOW.md`, så reglerna läses i varje session i alla projekt. I ett nytt projekt skapar Claude labels och kopierar mallarna från det här repot när användaren ber om det.
+Det här repot (`workflow-template`) innehåller `WORKFLOW.md`, `labels.json` och issue- och PR-mallarna. Den globala `CLAUDE.md` hämtar in `WORKFLOW.md`, så reglerna läses i varje session i alla projekt. I ett nytt projekt skapar Claude labels och kopierar mallarna från det här repot när användaren ber om det. Att köra `/issue` räknas som att be om det: saknas labels, board eller milestone skapas de direkt.
+
+Skillen `/issue` ligger i `skills/issue/` och är länkad till `~/.claude/skills/issue`, så den finns i alla projekt.
 
 ## 14. Lärande
 
