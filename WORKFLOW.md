@@ -1,6 +1,6 @@
 # WORKFLOW.md – Så jobbar vi i GitHub
 
-Reglerna gäller för varje projekt. Den enda källan till sanning är repot `workflow-template`. Ändras en regel ändras den här, och setup-skriptet körs om i de projekt som berörs.
+Reglerna gäller för varje projekt. Den enda källan till sanning är repot `workflow-template`. Ändras en regel ändras den här, och den gäller direkt i alla projekt.
 
 Befintligt arbete lämnas som det är. Reglerna gäller för allt nytt arbete.
 
@@ -49,7 +49,7 @@ Status har fem värden:
 4. **In review** – PR är öppen.
 5. **Done** – PR mergad, issue stängd.
 
-Stories och epics ska följa med: *In progress* när någon task under dem är det, *Done* när alla tasks under dem är stängda. GitHub gör inte det av sig själv. Setup-skriptet sätter upp en automation i Projectet för det.
+Stories och epics ska följa med: *In progress* när någon task under dem är det, *Done* när alla tasks under dem är stängda. GitHub gör inte det av sig själv, så Claude uppdaterar status på story och epic för hand när en task flyttas.
 
 Gräns för pågående arbete: max en task *In progress* per session eller agent, och aldrig två samtidiga tasks som ändrar samma fil.
 
@@ -77,7 +77,7 @@ En issue-mall per typ. Fet text är obligatoriskt. Titelprefix: `[PRD]`, `[Epic]
 - Commits börjar med issue-numret: `[#42] Lägg till inloggningsformulär`.
 - En PR per task. Titel `[Task] ...`, och beskrivningen innehåller `Closes #<nummer>`, vad som ändrades, hur det testades och vilka filer som berördes. En fil utanför tasken ska förklaras.
 - Merge: squash merge, branchen raderas efteråt.
-- `main` är skyddat: ingen direkt push. En PR får mergas först när tasken inte har öppna blockerare.
+- Ingen direkt push till `main`: allt går via PR. Det är en överenskommelse och inte en teknisk spärr (GitHub kräver Pro för skydd i privata repon). En PR mergas först när tasken inte har öppna blockerare.
 
 ## 8. Vertikalt arbete
 
@@ -125,7 +125,7 @@ Enda undantaget: köra exakt samma kommando en gång till vid ett uppenbart till
 
 ## 13. Gemensamma resurser
 
-Det här repot (`workflow-template`) innehåller `WORKFLOW.md`, `labels.json`, issue- och PR-mallar och ett setup-skript. Skriptet körs en gång i varje nytt repo och sätter upp labels, projekt med statusvärden, skyddat `main` och mallar. Varje projekt har en kopia av `WORKFLOW.md` i roten. Den globala `CLAUDE.md` pekar hit.
+Det här repot (`workflow-template`) innehåller `WORKFLOW.md`, `labels.json` och issue- och PR-mallarna. Den globala `CLAUDE.md` hämtar in `WORKFLOW.md`, så reglerna läses i varje session i alla projekt. I ett nytt projekt skapar Claude labels och kopierar mallarna från det här repot när användaren ber om det.
 
 ## 14. Lärande
 
