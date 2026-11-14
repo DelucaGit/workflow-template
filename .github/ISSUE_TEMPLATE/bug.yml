@@ -1,30 +1,30 @@
 name: Bug
-description: Ett fel som ska fixas
+description: Something that is broken and needs fixing
 title: "[Bug] "
 labels: ["type:bug"]
 body:
   - type: textarea
     id: what-happened
     attributes:
-      label: Vad som hände
+      label: What happened
     validations:
       required: true
   - type: textarea
     id: expected
     attributes:
-      label: Vad som borde hända
+      label: What should happen
     validations:
       required: true
   - type: textarea
     id: steps
     attributes:
-      label: Steg för att återskapa
+      label: Steps to reproduce
     validations:
       required: true
   - type: input
     id: env
     attributes:
-      label: Miljö
-      description: Till exempel webbläsare, enhet eller version.
+      label: Environment
+      description: For example browser, device or version.
     validations:
       required: true
