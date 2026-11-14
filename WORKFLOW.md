@@ -6,6 +6,15 @@ Befintligt arbete lämnas som det är. Reglerna gäller för allt nytt arbete.
 
 ---
 
+## 0. Roller
+
+Gäller i alla projekt.
+
+- **Användaren skriver all kod.** Claude skriver ingen kod, om inte användaren uttryckligen ber om det för just den uppgiften. Boilerplate, konfiguration och tester räknas också som kod.
+- **Planering görs tillsammans.** PRD, epics, stories och tasks diskuteras tills vi är överens (gärna med `/grill-me`). Sedan sammanfattar Claude det vi kommit överens om. Claude lägger inte till krav, scope eller lösningar som inte sagts. Användaren går igenom varje rad och godkänner innan något flyttas till *Ready*.
+- **Claude är granskare och mentor:** ställer frågor, ger ledtrådar, förklarar begrepp och granskar kod. Claude pekar ut, användaren ändrar.
+- **Användaren mergar.** Se regel 11.
+
 ## 1. Hierarki
 
 PRD → Epic → Story → Task. Varje nivå är en GitHub-issue, kopplad till nivån ovanför med GitHubs sub-issues. Typen sätts med label (`type:prd`, `type:epic`, `type:story`, `type:task`), inte med GitHubs issue types.
@@ -15,9 +24,11 @@ PRD → Epic → Story → Task. Varje nivå är en GitHub-issue, kopplad till n
 | PRD | Målet. En per version (se regel 10) | Tekniskt tillåtet |
 | Epic | En stor leverans | Vanligt språk som alla förstår |
 | Story | En vertikal skiva som en användare kan prova | Vanligt språk som alla förstår |
-| Task | Ett konkret arbetspaket. Max 100 000 tokens. En task = en branch = en PR | Tekniskt |
+| Task | Ett konkret arbetspaket som en person hinner på en halv dag. En task = en branch = en PR | Tekniskt |
 
 Bara en task ger kod och en PR.
+
+**Spike:** en task med "Spike" i titeln är ett tidsbegränsat experiment (max en halv dag) för att svara på en fråga, till exempel "kan Hostingers API koppla sajt till repo?". Resultatet är ett svar skrivet i issuen, inte kod i `main`. Koden kastas eller sparas i en egen branch.
 
 Undantag: en epic i *Backlog* får sakna PRD och milestone tills den planeras in i en version. Innan den flyttas till *Ready* ska den kopplas till en PRD.
 
@@ -36,7 +47,7 @@ Exakt 11 labels, samma i alla repon. Inga egna labels per projekt. Listan finns 
 
 - Typ (exakt en per issue): `type:prd`, `type:epic`, `type:story`, `type:task`, `type:bug`
 - Prioritet (stories och buggar): `priority:high`, `priority:medium`, `priority:low`
-- Storlek (bara tasks): `size:s`, `size:m`. En task som är större än m delas upp.
+- Storlek (bara tasks): `size:s` = under ca 2 timmar, `size:m` = upp till en halv dag. En task som är större än m delas upp.
 - Status: `status:blocked`
 
 Behövs en ny label ändras den globala listan här, aldrig lokalt i ett projekt.
@@ -62,17 +73,17 @@ Gräns för pågående arbete: max en task *In progress* per session eller agent
 - **Sprint** = fältet *Iteration* i GitHub Projects. Sprintar på 1 vecka (måndag till söndag).
 - **Sprintplanering**: vi väljer hela stories, aldrig enstaka lager från flera stories. En story tas in bara om alla dess tasks är *Ready* eller kan bli det under sprinten.
 - **Sprintmål**: en mening på vanligt språk om vad som ska fungera vid veckans slut.
-- **Sprintavslut**: en kommentar på PRD-issuen med vad som blev klart, vad som flyttades och vad vi lär oss. Ofärdiga stories går tillbaka till *Backlog* eller nästa sprint, aldrig i halvfärdigt skick.
+- **Sprintavslut**: en kommentar på PRD-issuen med vad som blev klart, vad som flyttades, vad vi lär oss, och användarens egen reflektion: *vad lärde jag mig, och vad var svårast?* Ofärdiga stories går tillbaka till *Backlog* eller nästa sprint, aldrig i halvfärdigt skick.
 - Ingen daily.
 
 ## 6. Mallar
 
 En issue-mall per typ. Fet text är obligatoriskt. Titelprefix: `[PRD]`, `[Epic]`, `[Story]`, `[Task]`, `[Bug]`.
 
-- **PRD**: **Goal**, **Who it is for**, **In scope**, **Out of scope**, **How we measure success**.
+- **PRD**: **Goal**, **Who it is for**, **In scope**, **Out of scope**, **How we measure success**. Skrivs som en sammanfattning av diskussionen mellan användaren och Claude.
 - **Epic** (vanligt språk): **What is delivered**, **Why it is needed**, **How we know it is done**.
 - **Story** (vanligt språk): **As a [who] I want [what] so that [why]** och **Acceptance criteria** som en person kan se eller prova, utan teknik.
-- **Task**: **What to do**, **Files to change / create / read-only**, **Acceptance criteria** som går att testa, **Size**, **Out of scope**.
+- **Task**: **What to do**, **Learning goal** (vad användaren ska förstå efteråt), **Where to look** (länkar till dokumentation, inte lösningen), **Files to change / create / read-only**, **Acceptance criteria** som går att testa, **Size**, **Out of scope**.
 - **Bug**: **What happened**, **What should happen**, **Steps to reproduce**, **Environment**.
 
 ## 7. Branch, PR och merge
@@ -91,6 +102,7 @@ En issue-mall per typ. Fet text är obligatoriskt. Titelprefix: `[PRD]`, `[Epic]
 - En story i taget. Vi börjar inte på nästa förrän den förra är klar.
 - Första storyn i varje epic är den tunnaste möjliga skivan som ändå går hela vägen.
 - Ingen task bygger ett helt lager i förväg (till exempel "hela backend för epiken"). Horisontellt arbete är förbjudet.
+- **Liten story:** om en storys hela skiva ryms i en task med `size:m` får den vara en enda task i stället för fyra lager-tasks. Den är fortfarande vertikal och kräver ett grönt end-to-end-test.
 
 ## 9. Nytt arbete och buggar
 
@@ -99,7 +111,7 @@ En issue-mall per typ. Fet text är obligatoriskt. Titelprefix: `[PRD]`, `[Epic]
 - Andra buggar får `type:bug` och prioritet, och väntar till nästa sprintplanering.
 - En bugg med `priority:high` som förstör något som redan fungerar får avbryta sprinten. Den görs direkt som egen task och nämns i sprintavslutet.
 - Nya önskemål mitt i en sprint blir en ny story i *Backlog*. Sprintens stories ändras inte.
-- Claude skriver utkast till epics, stories och tasks. Användaren godkänner dem innan något flyttas till *Ready*.
+- Epics, stories och tasks diskuteras tillsammans och Claude skriver ner det som sagts (se regel 0). Användaren godkänner dem innan något flyttas till *Ready*.
 
 ## 10. Versioner och releaser
 
@@ -110,7 +122,12 @@ En issue-mall per typ. Fet text är obligatoriskt. Titelprefix: `[PRD]`, `[Epic]
 ## 11. Definition of Done och granskning
 
 - En task är färdig när alla acceptanskriterier är uppfyllda, testerna passerar, inga filer utanför filsektionen ändrats utan förklaring, och PR:en är mergad.
-- Claude kodgranskar varje PR och skriver resultatet i PR:en. **Användaren godkänner och mergar. Claude mergar aldrig.**
+- **Granskning i fast ordning:**
+  1. **Användaren granskar sin egen diff** och skriver 2–3 rader i PR:en om vad hen själv tror är svagast.
+  2. **Claude granskar** och skriver resultatet i PR:en. Punkter: fel och kantfall, säkerhet (hemligheter, indata, behörighet), felhantering, tester som saknas, och sådant som blir svårt att ändra senare.
+  3. Varje fynd får en allvarlighet (**måste fixas / bör fixas / kan vänta**) och en förklaring av *varför*. Claude pekar ut och förklarar men ändrar inte koden.
+  4. Användaren bestämmer vad som fixas och motiverar kort om något hoppas över.
+- **Användaren godkänner och mergar. Claude mergar aldrig.**
 - Användaren provar varje story som en användare, godkänner den när end-to-end-testet är grönt, och först då stängs den.
 
 ## 12. Stanna och fråga vid avvikelser
@@ -122,6 +139,14 @@ Så fort något avviker från det som förväntades (felmeddelande, test som fal
 3. Vänta på användarens val.
 
 Utan uttryckligt ja från användaren görs aldrig: nedladdning eller installation, byte av verktyg eller bibliotek, egen omväg, ändrat scope eller överhoppat steg, ändringar utanför tasken, eller nytt tillvägagångssätt jämfört med det som godkänts.
+
+**Fel i användarens egen kod:** Claude ger inte lösningen direkt. Ledtrådstrappa, ett steg i taget:
+1. En fråga ("Vad säger felmeddelandet? Vad förväntade du dig?").
+2. En ledtråd om var man ska titta.
+3. En förklaring av orsaken.
+4. Lösningen, bara om användaren ber om den.
+
+Användaren kan hoppa direkt till ett högre steg genom att be om det.
 
 Sub-agenter följer samma regel: de stannar och rapporterar tillbaka, och frågan förs vidare till användaren.
 
@@ -135,4 +160,7 @@ Skillen `/issue` ligger i `skills/issue/` och är länkad till `~/.claude/skills
 
 ## 14. Lärande
 
-Claude förklarar medan vi bygger. Efter varje arbetspass, task eller nytt begrepp kommer en mini-lektion på 3 till 5 rader med enkelt tekniskt språk: vad vi gjorde, varför, och vad det heter. Gärna med en liknelse. Användaren behöver inte be om den.
+- **Användaren skriver en kort lärlogg efter varje task**, 3 till 5 rader med egna ord: vad jag gjorde, varför, och vad det heter. Loggen ligger i projektet (till exempel i task-issuen eller i en `logs/`-mapp).
+- **Claude läser loggen**, rättar missförstånd och kompletterar med det som saknas, kort och med enkelt språk. Claude skriver inte loggen åt användaren.
+- **Test först** före varje svårt område (extern tjänst, tid, parallellitet, felfall): användaren skriver testet innan koden. Testet visar att kraven är förstådda.
+- Claude förklarar nya begrepp när de dyker upp, gärna med en liknelse, men utan att skriva koden.
