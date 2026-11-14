@@ -1,0 +1,36 @@
+name: PRD
+description: Målet för en version av projektet (tekniskt språk tillåtet)
+title: "[PRD] "
+labels: ["type:prd"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Mål
+      description: Vad ska den här versionen uppnå?
+    validations:
+      required: true
+  - type: textarea
+    id: audience
+    attributes:
+      label: Vem det är för
+    validations:
+      required: true
+  - type: textarea
+    id: in-scope
+    attributes:
+      label: Ingår
+    validations:
+      required: true
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Ingår inte
+    validations:
+      required: true
+  - type: textarea
+    id: success
+    attributes:
+      label: Hur vi mäter att det lyckats
+    validations:
+      required: true

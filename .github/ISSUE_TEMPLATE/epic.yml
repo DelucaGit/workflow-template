@@ -1,0 +1,24 @@
+name: Epic
+description: En stor leverans. Skriv på vanligt språk som alla förstår.
+title: "[Epic] "
+labels: ["type:epic"]
+body:
+  - type: textarea
+    id: delivers
+    attributes:
+      label: Vad som levereras
+      description: Vanligt språk, utan teknik.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Varför det behövs
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Hur vi vet att den är klar
+    validations:
+      required: true
