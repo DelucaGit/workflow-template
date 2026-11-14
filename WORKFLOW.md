@@ -49,7 +49,7 @@ Status har fem värden:
 4. **In review** – PR är öppen.
 5. **Done** – PR mergad, issue stängd.
 
-Stories och epics följer med automatiskt: *In progress* när någon task under dem är det, *Done* när alla tasks under dem är stängda.
+Stories och epics ska följa med: *In progress* när någon task under dem är det, *Done* när alla tasks under dem är stängda. GitHub gör inte det av sig själv. Setup-skriptet sätter upp en automation i Projectet för det.
 
 Gräns för pågående arbete: max en task *In progress* per session eller agent, och aldrig två samtidiga tasks som ändrar samma fil.
 
