@@ -6,14 +6,24 @@ Befintligt arbete lämnas som det är. Reglerna gäller för allt nytt arbete.
 
 ---
 
-## 0. Roller
+## 0. Läge
 
-Gäller i alla projekt.
+Varje projekt har ett läge som styr vem som skriver koden och vem som gör GitHub-arbetet. Läget sätts med en rad i projektets egen `CLAUDE.md`:
 
-- **Användaren skriver all kod.** Claude skriver ingen kod, om inte användaren uttryckligen ber om det för just den uppgiften. Boilerplate, konfiguration och tester räknas också som kod.
-- **Planering görs tillsammans.** PRD, epics, stories och tasks diskuteras tills vi är överens (gärna med `/grill-me`). Sedan sammanfattar Claude det vi kommit överens om. Claude lägger inte till krav, scope eller lösningar som inte sagts. Användaren går igenom varje rad och godkänner innan något flyttas till *Ready*.
-- **Claude är granskare och mentor:** ställer frågor, ger ledtrådar, förklarar begrepp och granskar kod. Claude pekar ut, användaren ändrar.
-- **Användaren mergar.** Se regel 11.
+```
+Workflow mode: learn
+```
+
+eller `Workflow mode: build`. Saknas raden gäller **build**. Ett projekt är bara ett learn-projekt när användaren har sagt det.
+
+| Läge | Kod | GitHub-arbetet | Claude är |
+|---|---|---|---|
+| `learn` | Användaren | Användaren | Mentor och granskare |
+| `build` | Claude (test först för kärnfunktioner) | Claude | Byggare. Användaren godkänner, granskar och mergar |
+
+Reglerna för varje läge finns i `modes/learn.md` och `modes/build.md`. Reglerna i resten av den här filen gäller i båda lägena. Hänvisar en regel till "läget" gäller det som står i lägets fil.
+
+I båda lägena **mergar Claude aldrig**.
 
 ## 1. Hierarki
 
@@ -64,7 +74,7 @@ Status har fem värden:
 4. **In review** – PR är öppen.
 5. **Done** – PR mergad, issue stängd.
 
-Stories och epics ska följa med: *In progress* när någon task under dem är det, *Done* när alla tasks under dem är stängda. GitHub gör inte det av sig själv, så Claude uppdaterar status på story och epic för hand när en task flyttas.
+Stories och epics ska följa med: *In progress* när någon task under dem är det, *Done* när alla tasks under dem är stängda. GitHub gör inte det av sig själv, så status på story och epic uppdateras för hand när en task flyttas. Vem som gör det styrs av läget (regel 0).
 
 Gräns för pågående arbete: max en task *In progress* per session eller agent, och aldrig två samtidiga tasks som ändrar samma fil.
 
@@ -111,7 +121,7 @@ En issue-mall per typ. Fet text är obligatoriskt. Titelprefix: `[PRD]`, `[Epic]
 - Andra buggar får `type:bug` och prioritet, och väntar till nästa sprintplanering.
 - En bugg med `priority:high` som förstör något som redan fungerar får avbryta sprinten. Den görs direkt som egen task och nämns i sprintavslutet.
 - Nya önskemål mitt i en sprint blir en ny story i *Backlog*. Sprintens stories ändras inte.
-- Epics, stories och tasks diskuteras tillsammans och Claude skriver ner det som sagts (se regel 0). Användaren godkänner dem innan något flyttas till *Ready*.
+- Epics, stories och tasks planeras enligt läget (regel 0). I båda lägena godkänner användaren dem innan något flyttas till *Ready*.
 
 ## 10. Versioner och releaser
 
@@ -122,11 +132,7 @@ En issue-mall per typ. Fet text är obligatoriskt. Titelprefix: `[PRD]`, `[Epic]
 ## 11. Definition of Done och granskning
 
 - En task är färdig när alla acceptanskriterier är uppfyllda, testerna passerar, inga filer utanför filsektionen ändrats utan förklaring, och PR:en är mergad.
-- **Granskning i fast ordning:**
-  1. **Användaren granskar sin egen diff** och skriver 2–3 rader i PR:en om vad hen själv tror är svagast.
-  2. **Claude granskar** och skriver resultatet i PR:en. Punkter: fel och kantfall, säkerhet (hemligheter, indata, behörighet), felhantering, tester som saknas, och sådant som blir svårt att ändra senare.
-  3. Varje fynd får en allvarlighet (**måste fixas / bör fixas / kan vänta**) och en förklaring av *varför*. Claude pekar ut och förklarar men ändrar inte koden.
-  4. Användaren bestämmer vad som fixas och motiverar kort om något hoppas över.
+- **Granskning** görs enligt läget (regel 0): i `learn` granskar Claude användarens kod i en fast ordning, i `build` granskar användaren Claudes kod.
 - **Användaren godkänner och mergar. Claude mergar aldrig.**
 - Användaren provar varje story som en användare, godkänner den när end-to-end-testet är grönt, och först då stängs den.
 
@@ -140,13 +146,7 @@ Så fort något avviker från det som förväntades (felmeddelande, test som fal
 
 Utan uttryckligt ja från användaren görs aldrig: nedladdning eller installation, byte av verktyg eller bibliotek, egen omväg, ändrat scope eller överhoppat steg, ändringar utanför tasken, eller nytt tillvägagångssätt jämfört med det som godkänts.
 
-**Fel i användarens egen kod:** Claude ger inte lösningen direkt. Ledtrådstrappa, ett steg i taget:
-1. En fråga ("Vad säger felmeddelandet? Vad förväntade du dig?").
-2. En ledtråd om var man ska titta.
-3. En förklaring av orsaken.
-4. Lösningen, bara om användaren ber om den.
-
-Användaren kan hoppa direkt till ett högre steg genom att be om det.
+**Fel i användarens egen kod** (läge `learn`): Claude ger inte lösningen direkt utan följer ledtrådstrappan i `modes/learn.md`.
 
 Sub-agenter följer samma regel: de stannar och rapporterar tillbaka, och frågan förs vidare till användaren.
 
@@ -154,13 +154,13 @@ Enda undantaget: köra exakt samma kommando en gång till vid ett uppenbart till
 
 ## 13. Gemensamma resurser
 
-Det här repot (`workflow-template`) innehåller `WORKFLOW.md`, `labels.json` och issue- och PR-mallarna. Den globala `CLAUDE.md` hämtar in `WORKFLOW.md`, så reglerna läses i varje session i alla projekt. I ett nytt projekt skapar Claude labels och kopierar mallarna från det här repot när användaren ber om det. Att köra `/issue` räknas som att be om det: saknas labels, board eller milestone skapas de direkt.
+Det här repot (`workflow-template`) innehåller `WORKFLOW.md`, lägesfilerna i `modes/`, `labels.json` och issue- och PR-mallarna. Den globala `CLAUDE.md` hämtar in `WORKFLOW.md` och lägesfilerna, så reglerna läses i varje session i alla projekt. I ett nytt projekt skapar Claude labels och kopierar mallarna från det här repot när användaren ber om det. Att köra `/issue` räknas som att be om det: saknas labels, board eller milestone skapas de direkt.
 
 Skillen `/issue` ligger i `skills/issue/` och är länkad till `~/.claude/skills/issue`, så den finns i alla projekt.
 
-## 14. Lärande
+## 14. Lärande och test först
 
-- **Användaren skriver en kort lärlogg efter varje task**, 3 till 5 rader med egna ord: vad jag gjorde, varför, och vad det heter. Loggen ligger i projektet (till exempel i task-issuen eller i en `logs/`-mapp).
-- **Claude läser loggen**, rättar missförstånd och kompletterar med det som saknas, kort och med enkelt språk. Claude skriver inte loggen åt användaren.
-- **Test först** före varje svårt område (extern tjänst, tid, parallellitet, felfall): användaren skriver testet innan koden. Testet visar att kraven är förstådda.
-- Claude förklarar nya begrepp när de dyker upp, gärna med en liknelse, men utan att skriva koden.
+Styrs av läget (regel 0):
+
+- `learn`: lärlogg efter varje task, användaren skriver testet först före svåra områden, och Claude förklarar nya begrepp. Se `modes/learn.md`.
+- `build`: Claude skriver testerna först för kärnfunktioner, användaren godkänner dem, sedan implementerar Claude. Se `modes/build.md`.
